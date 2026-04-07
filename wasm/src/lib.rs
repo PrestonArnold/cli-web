@@ -22,15 +22,13 @@ fn read_input(ptr: i32, len: i32) -> String {
 #[unsafe(no_mangle)]
 pub extern "C" fn alloc(len: i32) -> i32 {
     let mut buf = Vec::<u8>::with_capacity(len as usize);
-
     let ptr = buf.as_mut_ptr();
     mem::forget(buf);
-
     ptr as i32
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn handle_command(ptr: i32, len: i32) -> i32 {
+pub extern "C" fn handle_command(ptr: i32, len: i32) -> i64 {
     let input_str = read_input(ptr, len);
     let input: Input = serde_json::from_str(&input_str).unwrap();
 
@@ -54,5 +52,5 @@ pub extern "C" fn handle_command(ptr: i32, len: i32) -> i32 {
         dest.copy_from_slice(&bytes);
     }
 
-    ptr
+    ((ptr as i64) << 32) | (len as i64)
 }
