@@ -11,7 +11,6 @@ async fn main() -> anyhow::Result<()> {
 
     if args.get(1).map(|s| s.as_str()) == Some("--ssh") {
         let rt = WasmRuntime::new(wasm_path)?;
-        println!("SSH server listening on :2222");
         return ssh::serve(rt).await;
     }
 
