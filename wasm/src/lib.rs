@@ -19,20 +19,16 @@ trait Command {
 
 struct Help;
 impl Command for Help {
-    fn name(&self) -> &'static str {
-        "help"
-    }
-    
-    fn run(&self, args: &[String]) -> String {
-        "commands: help, about, projects".to_string()
+    fn name(&self) -> &'static str { "help" }
+    fn run(&self, _args: &[String]) -> String {
+        let names: Vec<&str> = registry().iter().map(|c| c.name()).collect();
+        format!("commands: {}", names.join(", "))
     }
 }
 
 struct About;
 impl Command for About {
-    fn name(&self) -> &'static str {
-        "about"
-    }
+    fn name(&self) -> &'static str { "about" }
     
     fn run(&self, args: &[String]) -> String {
         "Hi, I'm Preston Arnold.".to_string()
@@ -41,11 +37,9 @@ impl Command for About {
 
 struct Projects;
 impl Command for Projects {
-    fn name(&self) -> &'static str {
-        "projects"
-    }
+    fn name(&self) -> &'static str { "projects" }
     
-    fn run(&self, args: &[String]) -> String {
+    fn run(&self, _args: &[String]) -> String {
         "ssh-os, ai-tools".to_string()
     }
 }
