@@ -44,11 +44,24 @@ impl Command for Projects {
     }
 }
 
+struct Echo;
+impl Command for Echo {
+    fn name(&self) -> &'static str { "echo" }
+    fn run(&self, args: &[String]) -> String {
+        if args.is_empty() {
+            "usage: echo <message>".to_string()
+        } else {
+            args.join(" ")
+        }
+    }
+}
+
 fn registry() -> Vec<Box<dyn Command>> {
     vec![
         Box::new(Help),
         Box::new(About),
         Box::new(Projects),
+        Box::new(Echo),
     ]
 }
 
